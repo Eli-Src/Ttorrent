@@ -1,0 +1,28 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I./include",
+      "-o",
+      "main",
+      "./src/main.cpp"
+    ],
+    "directory": "/Users/elias/Desktop/Dev/ttorrent",
+    "file": "/Users/elias/Desktop/Dev/ttorrent/src/main.cpp",
+    "output": "/Users/elias/Desktop/Dev/ttorrent/main"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I./include",
+      "-o",
+      "main",
+      "./src/parser.cpp"
+    ],
+    "directory": "/Users/elias/Desktop/Dev/ttorrent",
+    "file": "/Users/elias/Desktop/Dev/ttorrent/src/parser.cpp",
+    "output": "/Users/elias/Desktop/Dev/ttorrent/main"
+  }
+]
