@@ -3,7 +3,51 @@
     "arguments": [
       "/usr/bin/g++",
       "-c",
-      "-I./include",
+      "-Wall",
+      "-Weffc++",
+      "-Wextra",
+      "-ggdb",
+      "--std=c++20",
+      "-I./include/ttorrent",
+      "-I./include/asio",
+      "-o",
+      "main",
+      "./src/bencode.cpp"
+    ],
+    "directory": "/Users/elias/Desktop/Dev/ttorrent",
+    "file": "/Users/elias/Desktop/Dev/ttorrent/src/bencode.cpp",
+    "output": "/Users/elias/Desktop/Dev/ttorrent/main"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Wall",
+      "-Weffc++",
+      "-Wextra",
+      "-ggdb",
+      "--std=c++20",
+      "-I./include/ttorrent",
+      "-I./include/asio",
+      "-o",
+      "main",
+      "./src/input.cpp"
+    ],
+    "directory": "/Users/elias/Desktop/Dev/ttorrent",
+    "file": "/Users/elias/Desktop/Dev/ttorrent/src/input.cpp",
+    "output": "/Users/elias/Desktop/Dev/ttorrent/main"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Wall",
+      "-Weffc++",
+      "-Wextra",
+      "-ggdb",
+      "--std=c++20",
+      "-I./include/ttorrent",
+      "-I./include/asio",
       "-o",
       "main",
       "./src/main.cpp"
@@ -16,13 +60,19 @@
     "arguments": [
       "/usr/bin/g++",
       "-c",
-      "-I./include",
+      "-Wall",
+      "-Weffc++",
+      "-Wextra",
+      "-ggdb",
+      "--std=c++20",
+      "-I./include/ttorrent",
+      "-I./include/asio",
       "-o",
       "main",
-      "./src/parser.cpp"
+      "./src/networking.cpp"
     ],
     "directory": "/Users/elias/Desktop/Dev/ttorrent",
-    "file": "/Users/elias/Desktop/Dev/ttorrent/src/parser.cpp",
+    "file": "/Users/elias/Desktop/Dev/ttorrent/src/networking.cpp",
     "output": "/Users/elias/Desktop/Dev/ttorrent/main"
   }
 ]

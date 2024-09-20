@@ -1,8 +1,8 @@
 Files = ./src/*.cpp
-Include = -I./include
+Include = -I./include/ttorrent -I./include/asio
 Libs =
 Version = --std=c++20
-Flags = -Wall -Weffc++ -Wextra -Wconversion -Wsign-conversion -Werror -ggdb  
+Flags = -Wall -Weffc++ -Wextra -ggdb # -Wconversion -Wsign-conversion -Werror  
 
 build:
 	g++ -o main ${Flags} ${Version} ${Libs} ${Include} ${Files} ${flags}

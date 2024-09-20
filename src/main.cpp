@@ -1,62 +1,31 @@
 #include <iostream>
 #include <string>
 #include <regex>
+#include <string_view>
 
-#include "ttorrent/parser.h"
-
-void clear_line() {
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-}
-
-bool clear_failed_extraction() {
-    if (!std::cin) {
-        // If the stream was closed
-        if (std::cin.eof()) {
-            exit(0);
-        }
-
-        // Put us back in 'normal' operation mode
-        std::cin.clear(); 
-        clear_line();
-
-        return true;
-    }
-
-    return false;
-}
-
-std::string read_magnet_link() {
-    while (true) {
-        std::cout << "Please enter magnet_link: ";
-        std::string magnet_link;
-        std::cin >> magnet_link;
-
-        if (clear_failed_extraction()) {
-            std::cout << "Error in handling input. Please try again.\n";
-            continue;
-        }
-
-        clear_line();
-        return magnet_link;
-    }
-}
+#include "input.h"
+#include "parser.h"
+#include "bencode.h"
+#include "networking.h"
 
 int main(int argc, char* argv[]) {
+    constexpr std::string_view node_id = "abcdefghij0123456789";
+    constexpr std::string_view address = "router.bittorrent.com";
+    constexpr std::string_view port = "6881";
+
     Parser parser = {"ttorrent"};
-    parser.add_option("Display this help message", false, "help", 'h');
-    parser.add_option("Magnet link", true, "ml");
+    parser.add_option('h', "help", "Display this help message");
+    parser.add_option("ml", "Magnet link", Parser::Argument_Types::String_View);
 
     parser.parse(argc, argv);
 
-    if (!parser.get_option_value("help").empty()) {
-        parser.print_options();
+    if (parser.get_option_value("help")) {
+        parser.print_options({"ml", "", "help"});
         return 0;
     }
 
-    std::string magnet_link = static_cast<std::string>(parser.get_option_value("ml"));
-    if (magnet_link.empty()) {
-        magnet_link = read_magnet_link();
-    }
+    const std::string magnet_link = !parser.get_option_value<std::string_view>("ml") ?
+        read_magnet_link() : static_cast<std::string>(*parser.get_option_value<std::string_view>("ml"));
 
     // check if magnet link has right syntax
     const std::regex magnet_link_regex("^magnet:\\?xt=urn:btih:[a-zA-Z0-9]+$");
@@ -65,7 +34,29 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    std::cout << parser.get_program_name() << ": " << magnet_link << '\n';
+    std::string magnet_id = magnet_link.substr(20);
+    Bencode ben(Bencode::Map{
+        {"t", "ohmygawd"},
+        {"y", "q"},
+        {"q", "get_peers"},
+        {"a", Bencode::Nested_Map{
+            {"id", node_id},
+            {"info_hash", magnet_id},
+        }},
+    });
+
+    Client client(address, port);
+    std::string msg = client.send_and_recieve(ben.encode());
+    // std::cout << msg << '\n';
+    // std::cout << size(msg) << '\n';
+    // Bencode::Map decoded_msg = Bencode::decode(msg);
+    // for (const auto& pair : decoded_msg) {
+    //     std::cout << pair.first << '\n';
+    // };
+    // std::string ip;
+    // int port;
+    // std::string compact_ip = static_cast<std::string>(std::get<std::string_view>(map["ip"]));
+    // unpack_compact_ip(compact_ip, ip, port);
 
     return 0;
 }
